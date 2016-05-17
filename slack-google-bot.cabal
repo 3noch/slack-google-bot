@@ -1,0 +1,58 @@
+name:                slack-google-bot
+version:             0.1.0.0
+synopsis:            Simple Slack bot to search Google
+description:         Please see README.md
+homepage:            https://github.com/3noch/slack-google-bot#readme
+license:             BSD3
+license-file:        LICENSE
+author:              Elliot Cameron
+maintainer:          eacameron@gmail.com
+copyright:           2016 Elliot Cameron
+category:            Web
+build-type:          Simple
+cabal-version:       >=1.10
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     GoogleCseApi
+                     , SearchFormatting
+                     , SlackBot
+
+  build-depends:       aeson
+                     , base >= 4.7 && < 5
+                     , http-client
+                     , http-client-tls
+                     , slack-api
+                     , servant
+                     , servant-client
+                     , string-conv
+                     , text
+                     , transformers
+
+  default-language:    Haskell2010
+
+  default-extensions:  DataKinds
+                     , DeriveGeneric
+                     , OverloadedStrings
+                     , RankNTypes
+                     , RecordWildCards
+                     , TypeOperators
+
+executable bot
+  hs-source-dirs:      app
+  main-is:             Main.hs
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  build-depends:       base
+                     , text
+                     , http-client
+                     , http-client-tls
+                     , transformers
+                     , slack-google-bot
+                     , string-conv
+  default-language:    Haskell2010
+  default-extensions: OverloadedStrings
+                    , RecordWildCards
+
+source-repository head
+  type:     git
+  location: https://github.com/3noch/slack-google-bot.git
