@@ -13,7 +13,7 @@ type SearchEngine = forall io. MonadIO io => Text -> io Text
 queryBot :: SearchEngine -> SlackBot ()
 queryBot searchEngine (Message cid _ msg _ _ _) = case T.stripPrefix "google" msg of
     Just query -> do
-      result <- searchEngine msg
+      result <- searchEngine query
       sendMessage cid result
     _ -> return ()
 
