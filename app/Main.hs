@@ -4,8 +4,7 @@ import Control.Monad.IO.Class (MonadIO, liftIO)
 import Control.Monad.Trans.Except (runExceptT)
 import Data.String.Conv (toS)
 import Data.Text (Text)
-import qualified Data.Text as T
-import Network.HTTP.Client (Manager, newManager)
+import Network.HTTP.Client (newManager)
 import Network.HTTP.Client.TLS (tlsManagerSettings)
 import System.Environment (lookupEnv)
 
