@@ -1,9 +1,8 @@
-module GoogleCseApi where
+module AppLib.GoogleCseApi where
 
 import Data.Aeson (FromJSON)
 import Data.Proxy (Proxy(..))
 import Data.Text (Text)
-import qualified Data.Text as T
 import GHC.Generics (Generic)
 
 import Network.HTTP.Client (Manager)
@@ -15,7 +14,6 @@ type GoogleCseApi = "customsearch" :> "v1"
                     :> QueryParam "cx" Text
                     :> QueryParam "q" Text
                     :> Get '[JSON] QueryResult
-
 
 
 data QueryResult = QueryResult
@@ -33,8 +31,15 @@ instance FromJSON QueryResult
 instance FromJSON ResultItem
 
 
+-- | The base URL for Google APIs.
 googleCseBase :: BaseUrl
 googleCseBase = BaseUrl Https "www.googleapis.com" 443 "/"
 
-googleCse :: Maybe Text -> Maybe Text -> Maybe Text -> Manager -> BaseUrl -> ClientM QueryResult
+-- | HTTP client for Google CSE (Custom Search Engine)
+googleCse :: Maybe Text -- ^ Google API key
+          -> Maybe Text -- ^ Google CSE context token
+          -> Maybe Text -- ^ Google search query
+          -> Manager    -- ^ HTTP client manager
+          -> BaseUrl    -- ^ Base Google API URL
+          -> ClientM QueryResult
 googleCse = client (Proxy :: Proxy GoogleCseApi)

@@ -8,9 +8,9 @@ import Network.HTTP.Client (newManager)
 import Network.HTTP.Client.TLS (tlsManagerSettings)
 import System.Environment (lookupEnv)
 
-import GoogleCseApi (googleCse, googleCseBase)
-import SearchFormatting (formatResult)
-import SlackBot (runSlackBot)
+import AppLib.GoogleCseApi (googleCse, googleCseBase)
+import AppLib.SearchFormatting (formatResult)
+import AppLib.SlackBot (runSlackBot, botResponder)
 
 
 main :: IO ()
@@ -28,9 +28,10 @@ main = do
           Left err      -> toS $ "Search failed: " ++ show err
           Right success -> formatResult success
 
-  runSlackBot slackApiToken searchEngine
+  runSlackBot slackApiToken (botResponder searchEngine)
 
 
+-- | Looks up an environment variable with the given name or errors out.
 requiredEnv :: String -> IO Text
 requiredEnv env = maybe (error $ "Required environment variable not found: " ++ env) toS
               <$> lookupEnv env
